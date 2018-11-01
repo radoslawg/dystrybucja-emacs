@@ -1,0 +1,71 @@
+#+TITLE: Film 3 - Ricing Emacs
+#+AUTHOR: Radek
+
+
+* Github
+Konfiguracje i konspekt filmów można pobrać z mojego [[https://github.com/radoslawg/dystrybucja-emacs][GitHuba]].
+(Pobrać aktualny stan =git pull=.
+* Sprzątanie
+** Compton
+Wyłączenie nie potrzebnych efektów w =.xinit=
+#+BEGIN_SRC bash
+compton -CG &
+#+END_SRC
+oraz można pobrać konfigurację comptona z [[https://github.com/radoslawg/dystrybucja-emacs/blob/master/.config/compton.conf][GitHuba]] i umieścić w =~./config/compton.conf=
+* Czcionki
+Potrzebne narzędzia do czcionek
+#+BEGIN_SRC bas
+sudo pacman -S xorg-font-util xorg-fonts-75dpi xorg-fonts-100dpi ttf-bitstream-vera ttf-dejavu ttf-droid ttf-roboto noto-fonts ttf-liberation adobe-source-code-pro-fonts ttf-freefont ttf-fira-mono otf-fira-mono
+#+END_SRC
+
+** Czcionka Monaco
+*** Instalacja 
+ Czcionka Monaco znajduje się repozytorium =AUR=. Ewentualnie, skompilowana paczka z czcionkami
+ znajduje się [[https://github.com/radoslawg/dystrybucja-emacs/blob/master/build/ttf-monaco/ttf-monaco-6.1-3-any.pkg.tar.xz][tutaj]].
+
+*** Konfiguracja Emacs
+ Dodać w =~/.emacs.d/init.el=
+ #+BEGIN_SRC emacs-lisp
+ (set-face-attribute 'default nil
+       :font "Monaco"
+       :weight 'normal
+       :width 'normal
+       :height 100)
+ #+END_SRC
+** Feh
+#+BEGIN_SRC bash
+sudo pacman -S feh
+#+END_SRC
+*** Ustawienie tła
+#+BEGIN_SRC bash
+feh --bg-scale <ścieżka do pliku>
+#+END_SRC
+*** Edycja =xinit=
+#+BEGIN_SRC bash
+~/.fehbg &
+#+END_SRC
+* Motyw Emacs
+** Edycja ~/.emacs.d/init.el
+Konfiguracja repozytoriów poprzez dodanie do =init.el=
+#+BEGIN_SRC emacs-lisp
+(require 'package)
+(setq package-enable-at-startup nil)
+(setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+;;                         ("marmalade" . "https://marmalade-repo.org/packages/")
+                         ("melpa" . "https://melpa.org/packages/")
+                         ("org" . "http://orgmode.org/elpa/")))
+#+END_SRC
+** Instalacja =cyberpunk-theme=
+Uruchamiamy =M-x package-show-package-lis=. Znajdujemy =cyberpunk-theme=. 
+Następnie =M-x load-theme= i wpisujemy =cyberpunk=
+*** Konfiguracja
+Przeedytować =init.el=
+#+BEGIN_SRC emacs-lisp
+(load-theme 'cyberpunk t)
+#+END_SRC
+* Przeźroczystość
+W konfiguracji =init.el= dodać:
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'default-frame-alist '(alpha . (80 . 66)))
+  (set-frame-parameter nil 'alpha '(80 . 66))
+#+END_SRC
